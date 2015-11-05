@@ -1,0 +1,27 @@
+{
+    "name": "chris13/mailbundle",
+    "type": "symfony-bundle",
+    "description": "Send mail by sendgrid.",
+    "keywords": [
+        "Mail",
+        "sendgrid"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/symfony": "~2.3",
+        "sendgrid/sendgrid": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chris\\Bundle\\MailBundle\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Christophe Chausseray",
+            "email": "chausseray.christophe@gmail.com",
+            "role": "Developer"
+        }
+    ]
+}
