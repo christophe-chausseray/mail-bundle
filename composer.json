@@ -1,5 +1,5 @@
 {
-    "name": "christophe-chausseray/mail-bundle",
+    "name": "chris13/mail-bundle",
     "type": "symfony-bundle",
     "description": "Load content and send mail.",
     "keywords": [
