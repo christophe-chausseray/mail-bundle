@@ -39,7 +39,7 @@ class EmailEvent extends Event
      *
      * @return mixed
      */
-    public function getIsCanceled()
+    public function isCanceled()
     {
         return $this->isCanceled;
     }

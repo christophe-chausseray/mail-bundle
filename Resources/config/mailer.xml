@@ -17,6 +17,10 @@
         </service>
         <service id="mail_bundle.send_grid_mailer" class="%mail_bundle.send_grid_mailer.class%">
             <argument type="service" id="alexlbr_sendgrid.sendgrid" />
+            <argument type="service" id="event_dispatcher" />
+            <call method="setLogger">
+                <argument type="service" id="logger" on-invalid="null" strict="false" />
+            </call>
         </service>
         <service id="mail_bundle.swift_mailer" class="%mail_bundle.swift_mailer.class%">
             <argument type="service" id="mailer" />
