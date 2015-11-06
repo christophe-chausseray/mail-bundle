@@ -31,9 +31,9 @@ class SendGridMailer implements MailerInterface
     protected $options;
 
     /**
-     * @param SendGrid $sendGrid
+     * @param SendGridMailer $sendGrid
      */
-    public function __construct(SendGrid $sendGrid)
+    public function __construct(SendGridMailer $sendGrid)
     {
         $this->sendGrid = $sendGrid;
     }
@@ -70,7 +70,7 @@ class SendGridMailer implements MailerInterface
      */
     public function prepare($from, $to, $subject, $body, array $options = array())
     {
-        $this->mail = new Email($from, $to, $subject, $body);
+        $this->mail = new Mailer($from, $to, $subject, $body);
         $this->resolveOptions($options);
 
         return $this;
@@ -81,7 +81,7 @@ class SendGridMailer implements MailerInterface
      */
     public function send()
     {
-        if(!($this->mail instanceof Email) && !is_array($this->options)) {
+        if(!($this->mail instanceof Mailer) && !is_array($this->options)) {
             throw new MailerException('You need to prepare the mail that will be send');
         }
 
