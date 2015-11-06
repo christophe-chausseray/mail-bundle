@@ -33,12 +33,12 @@ class SendGridMailer implements MailerInterface
     protected $options;
 
     /**
-     * @var LoggerInterface $logger
+     * @var LoggerInterface|null $logger
      */
     protected $logger;
 
     /**
-     * @var
+     * @var EventDispatcher $eventDispatcher
      */
     protected $eventDispatcher;
 
@@ -48,7 +48,7 @@ class SendGridMailer implements MailerInterface
      */
     public function __construct(SendGrid $sendGrid, EventDispatcher $eventDispatcher)
     {
-        $this->sendGrid = $sendGrid;
+        $this->sendGrid        = $sendGrid;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -78,6 +78,11 @@ class SendGridMailer implements MailerInterface
         return $this;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return $this
+     */
     protected function resolveOptions(array $options = array())
     {
         $defaultOptions = [];

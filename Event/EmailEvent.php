@@ -51,7 +51,7 @@ class EmailEvent extends Event
      *
      * @return $this
      */
-    public function setIsCanceled($isCanceled)
+    public function setCanceled($isCanceled)
     {
         $this->isCanceled = $isCanceled;
 
