@@ -3,7 +3,10 @@
 namespace Chris\Bundle\MailBundle\Mailer;
 
 use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer;
+use Alexlbr\EmailLibrary\Mailer\MailerException;
 use Alexlbr\EmailLibrary\SendGridMailer;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SendGridMailer implements MailerInterface
 {
@@ -11,6 +14,21 @@ class SendGridMailer implements MailerInterface
      * @var SendGrid $sendGrid
      */
     protected $sendGrid;
+
+    /**
+     * @var null|array $categories
+     */
+    protected $categories = null;
+
+    /**
+     * @var Email $mail
+     */
+    protected $mail;
+
+    /**
+     * @var array $options
+     */
+    protected $options;
 
     /**
      * @param SendGrid $sendGrid
@@ -21,12 +39,52 @@ class SendGridMailer implements MailerInterface
     }
 
     /**
+     * Set Categories
+     *
+     * @param array|null $categories
+     *
+     * @return $this
+     */
+    public function setCategories(array $categories = null)
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    protected function resolveOptions(array $options = array())
+    {
+        $defaultOptions = [];
+
+        if (is_array($this->categories)) {
+            $defaultOptions['categories'] = $this->categories;
+        }
+
+        $this->options = array_merge($defaultOptions, $options);
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function send($from, $to, $subject, $body, array $options)
+    public function prepare($from, $to, $subject, $body, array $options = array())
     {
-        $mail = new Email($from, $to, $subject, $body);
+        $this->mail = new Email($from, $to, $subject, $body);
+        $this->resolveOptions($options);
 
-        $this->sendGrid->send($mail, $options);
+        return $this;
+    }
+
+    /**
+     * {@inheridoc}
+     */
+    public function send()
+    {
+        if(!($this->mail instanceof Email) && !is_array($this->options)) {
+            throw new MailerException('You need to prepare the mail that will be send');
+        }
+
+        $this->sendGrid->send($this->mail, $this->options);
     }
 }

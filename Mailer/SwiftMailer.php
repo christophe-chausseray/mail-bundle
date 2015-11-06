@@ -13,6 +13,11 @@ class SwiftMailer implements MailerInterface
     protected $swiftMailer;
 
     /**
+     * @var Swift_Message $mail
+     */
+    protected $mail;
+
+    /**
      * @param Swift_Mailer $swiftMailer
      */
     public function __construct(\Swift_Mailer $swiftMailer)
@@ -23,14 +28,20 @@ class SwiftMailer implements MailerInterface
     /**
      * {@inheritdoc}
      */
-    public function send($from, $to, $subject, $body, array $options)
+    public function prepare($from, $to, $subject, $body, array $options = array())
     {
-        $message = \Swift_Message::newInstance()
+        $this->mail = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($from)
             ->setTo($to)
             ->setBody($body, 'text/html');
+    }
 
-        $this->swiftMailer->send($message);
+    /**
+     * {@inheritdoc}
+     */
+    public function send()
+    {
+        $this->swiftMailer->send($this->mail);
     }
 }

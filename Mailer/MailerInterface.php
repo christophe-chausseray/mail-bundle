@@ -2,6 +2,9 @@
 
 namespace Chris\Bundle\MailBundle\Mailer;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 interface MailerInterface
 {
     /**
@@ -11,5 +14,10 @@ interface MailerInterface
      * @param string $body
      * @param array  $options
      */
-    public function send($from, $to, $subject, $body, array $options);
+    public function prepare($from, $to, $subject, $body, array $options = array());
+
+    /**
+     * Send the mail
+     */
+    public function send();
 }
