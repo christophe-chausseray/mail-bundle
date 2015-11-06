@@ -1,8 +1,11 @@
 <?php
 
-use SendGrid\Email;
+namespace Chris\Bundle\MailBundle\Mailer;
 
-class SendGridMailer
+use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer;
+use Alexlbr\EmailLibrary\SendGridMailer;
+
+class SendGridMailer implements MailerInterface
 {
     /**
      * @var SendGrid $sendGrid
@@ -18,11 +21,7 @@ class SendGridMailer
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     * @param string $subject
-     * @param string $body
-     * @param array  $options
+     * {@inheritdoc}
      */
     public function send($from, $to, $subject, $body, array $options)
     {

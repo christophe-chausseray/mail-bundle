@@ -5,8 +5,9 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="alexlbr_sendgrid.sendgrid.class">Email\Mailer\SendGrid\Mailer</parameter>
+        <parameter key="alexlbr_sendgrid.sendgrid.class">Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer</parameter>
         <parameter key="mail_bundle.send_grid_mailer.class">Chris\Bundle\MailBundle\Mailer\SendGridMailer</parameter>
+        <parameter key="mail_bundle.swift_mailer.class">Chris\Bundle\MailBundle\Mailer\SwiftMailer</parameter>
     </parameters>
 
     <services>
@@ -16,6 +17,9 @@
         </service>
         <service id="mail_bundle.send_grid_mailer" class="%mail_bundle.send_grid_mailer.class%">
             <argument type="service" id="alexlbr_sendgrid.sendgrid" />
+        </service>
+        <service id="mail_bundle.swift_mailer" class="%mail_bundle.swift_mailer.class%">
+            <argument type="service" id="mailer" />
         </service>
     </services>
 </container>
