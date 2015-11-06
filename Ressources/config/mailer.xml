@@ -5,20 +5,17 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="chris_sendgrid.sendgrid.class">SendGrid</parameter>
-        <parameter key="chris_sendgrid.email.class">SendGrid\Email</parameter>
+        <parameter key="alexlbr_sendgrid.sendgrid.class">Email\Mailer\SendGrid\Mailer</parameter>
         <parameter key="mail_bundle.send_grid_mailer.class">Chris\Bundle\MailBundle\Mailer\SendGridMailer</parameter>
     </parameters>
 
     <services>
-        <service id="chris_sendgrid.sendgrid" class="%chris_sendgrid.sendgrid.class%">
+        <service id="alexlbr_sendgrid.sendgrid" class="%alexlbr_sendgrid.sendgrid.class%">
             <argument>%mail_bundle.sendgrid.user%</argument>
             <argument>%mail_bundle.sendgrid.password%</argument>
         </service>
-        <service id="chris_sendgrid.email" class="%chris_sendgrid.email.class%" />
         <service id="mail_bundle.send_grid_mailer" class="%mail_bundle.send_grid_mailer.class%">
-            <argument type="service" id="chris_sendgrid.sendgrid" />
-            <argument type="service" id="chris_sendgrid.email" />
+            <argument type="service" id="alexlbr_sendgrid.sendgrid" />
         </service>
     </services>
 </container>
