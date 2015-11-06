@@ -4,9 +4,7 @@ namespace Chris\Bundle\MailBundle\Mailer;
 
 use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer;
 use Alexlbr\EmailLibrary\Mailer\MailerException;
-use Alexlbr\EmailLibrary\SendGridMailer;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Alexlbr\EmailLibrary\SendGridMailer as SendGrid;
 
 class SendGridMailer implements MailerInterface
 {
@@ -31,9 +29,9 @@ class SendGridMailer implements MailerInterface
     protected $options;
 
     /**
-     * @param SendGridMailer $sendGrid
+     * @param SendGrid $sendGrid
      */
-    public function __construct(SendGridMailer $sendGrid)
+    public function __construct(SendGrid $sendGrid)
     {
         $this->sendGrid = $sendGrid;
     }

@@ -2,9 +2,6 @@
 
 namespace Chris\Bundle\MailBundle\Mailer;
 
-use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer;
-use Alexlbr\EmailLibrary\SendGridMailer;
-
 class SwiftMailer implements MailerInterface
 {
     /**

@@ -2,9 +2,6 @@
 
 namespace Chris\Bundle\MailBundle\Mailer;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 interface MailerInterface
 {
     /**
