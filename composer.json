@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.3",
         "symfony/symfony": "~2.3",
         "alexlbr/email": "~1"
     },
