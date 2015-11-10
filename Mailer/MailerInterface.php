@@ -6,7 +6,7 @@ interface MailerInterface
 {
     /**
      * @param string $from
-     * @param string $to
+     * @param array  $to
      * @param string $subject
      * @param string $body
      * @param array  $attachments
@@ -14,7 +14,7 @@ interface MailerInterface
      *
      * @return
      */
-    public function prepare($from, $to, $subject, $body, array $attachments = array(), array $options = array());
+    public function prepare($from, array $to, $subject, $body, array $attachments = array(), array $options = array());
 
     /**
      * Send the mail

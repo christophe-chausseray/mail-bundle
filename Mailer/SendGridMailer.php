@@ -4,11 +4,11 @@ namespace Chris\Bundle\MailBundle\Mailer;
 
 use Alexlbr\EmailLibrary\Email;
 use Alexlbr\EmailLibrary\Mailer\MailerException;
-use Alexlbr\EmailLibrary\SendGridMailer as SendGrid;
+use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer as SendGrid;
 use Chris\Bundle\MailBundle\Event\EmailEvent;
 use Chris\Bundle\MailBundle\Events;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class SendGridMailer implements MailerInterface
 {
@@ -43,13 +43,11 @@ class SendGridMailer implements MailerInterface
     protected $eventDispatcher;
 
     /**
-     * @param SendGrid        $sendGrid
-     * @param EventDispatcher $eventDispatcher
+     * @param SendGrid $sendGrid
      */
-    public function __construct(SendGrid $sendGrid, EventDispatcher $eventDispatcher)
+    public function __construct(SendGrid $sendGrid)
     {
-        $this->sendGrid        = $sendGrid;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->sendGrid = $sendGrid;
     }
 
     /**
@@ -83,7 +81,7 @@ class SendGridMailer implements MailerInterface
      *
      * @return $this
      */
-    protected function resolveOptions(array $options = array())
+    protected function resolveOptions(array $options = [])
     {
         $defaultOptions = [];
 
@@ -104,7 +102,7 @@ class SendGridMailer implements MailerInterface
     protected function addEmail(Email $email)
     {
         if (!is_array($this->mailList)) {
-            $this->mailList = array();
+            $this->mailList = [];
         }
 
         $this->mailList[] = $email;
@@ -115,7 +113,7 @@ class SendGridMailer implements MailerInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($from, $to, $subject, $body, array $attachments = array(), array $options = array())
+    public function prepare($from, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
         $this->resolveOptions($options);
         $email = new Email($from, $to, $subject, $body, $this->options);
@@ -140,13 +138,14 @@ class SendGridMailer implements MailerInterface
 
         while (is_array($mailsToSend)) {
             $mail = array_shift($mailsToSend);
-            if (!($mail instanceof Email) && !is_array($this->options)) {
+            if (!($mail instanceof Email) || !(is_array($this->options))) {
                 throw new MailerException('You need to prepare the mail that will be sent.');
             }
 
-            $emailEvent = new EmailEvent($this->mail);
+            $emailEvent = new EmailEvent($mail);
 
-            $this->eventDispatcher->dispatch(
+            $dispatcher = new EventDispatcher();
+            $dispatcher->dispatch(
                 Events::STORE_EMAIL,
                 $emailEvent
             );
@@ -154,7 +153,7 @@ class SendGridMailer implements MailerInterface
             if (true === $emailEvent->isCanceled()) {
                 $this->loggerDebug('The email is canceled by the application.');
             } else {
-                $this->sendGrid->send($this->mail);
+                $this->sendGrid->send($mail);
             }
         }
 

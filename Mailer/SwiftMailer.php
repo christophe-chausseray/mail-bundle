@@ -25,13 +25,16 @@ class SwiftMailer implements MailerInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($from, $to, $subject, $body, array $attachments = array(), array $options = array())
+    public function prepare($from, array $to, $subject, $body, array $attachments = array(), array $options = array())
     {
         $this->mail = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($from)
-            ->setTo($to)
             ->setBody($body, 'text/html');
+
+        foreach ($to as $receiver) {
+            $this->mail->addTo($receiver);
+        }
 
         if (!empty($attachments)) {
             foreach ($attachments as $attachment) {
