@@ -26,8 +26,12 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('user')->isRequired()->end()
                         ->scalarNode('password')->isRequired()->end()
+                        ->arrayNode('options')
+                            ->children()
+                                ->scalarNode('turn_off_ssl_verification')->end()
+                            ->end()
+                        ->end()
                     ->end()
-                ->isRequired()
                 ->end()
             ->end();
 

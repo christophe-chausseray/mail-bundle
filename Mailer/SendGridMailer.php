@@ -113,10 +113,10 @@ class SendGridMailer implements MailerInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($from, array $to, $subject, $body, array $attachments = [], array $options = [])
+    public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
         $this->resolveOptions($options);
-        $email = new Email($from, $to, $subject, $body, $this->options);
+        $email = new Email($from, $fromName, $to, $subject, $body, htmlspecialchars($body));
 
         if (!empty($attachments)) {
             foreach ($attachments as $attachment) {

@@ -25,6 +25,7 @@ class MailExtension extends Extension
 
         $container->setParameter('mail_bundle.sendgrid.user', $config['sendgrid']['user']);
         $container->setParameter('mail_bundle.sendgrid.password', $config['sendgrid']['password']);
+        $container->setParameter('mail_bundle.sendgrid.options', $config['sendgrid']['options']);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('mailer.xml');
