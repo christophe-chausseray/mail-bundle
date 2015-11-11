@@ -23,6 +23,11 @@ class MailExtension extends Extension
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 
+        if (false === $config['sendgrid']['enabled']) {
+            $config['sendgrid']['user']    = $config['sendgrid']['password'] = null;
+            $config['sendgrid']['options'] = false;
+        }
+
         $container->setParameter('mail_bundle.sendgrid.user', $config['sendgrid']['user']);
         $container->setParameter('mail_bundle.sendgrid.password', $config['sendgrid']['password']);
         $container->setParameter('mail_bundle.sendgrid.options', $config['sendgrid']['options']);
