@@ -23,8 +23,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('sendgrid')
+                    ->canBeEnabled()
                     ->children()
-                        ->canBeEnabled()
                         ->scalarNode('user')->end()
                         ->scalarNode('password')->end()
                         ->arrayNode('options')
