@@ -115,6 +115,7 @@ class SendGridMailer implements MailerInterface
      */
     public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
+        var_dump(__METHOD__);
         $this->resolveOptions($options);
         $email = new Email($from, $fromName, $to, $subject, $body, htmlspecialchars($body));
 
@@ -136,9 +137,8 @@ class SendGridMailer implements MailerInterface
     {
         $mailsToSend = $this->mailList;
 
-        while (is_array($mailsToSend)) {
-            $mail = array_shift($mailsToSend);
-            if (!($mail instanceof Email) || !(is_array($this->options))) {
+        while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof Email) {
+            if (!(is_array($this->options))) {
                 throw new MailerException('You need to prepare the mail that will be sent.');
             }
 
@@ -157,7 +157,7 @@ class SendGridMailer implements MailerInterface
             }
         }
 
-        return $this;
+        //        return $this;
     }
 
     /**
