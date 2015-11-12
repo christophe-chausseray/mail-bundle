@@ -8,7 +8,7 @@ use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer as SendGrid;
 use Chris\Bundle\MailBundle\Event\EmailEvent;
 use Chris\Bundle\MailBundle\Events;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SendGridMailer implements MailerInterface
 {
@@ -43,11 +43,18 @@ class SendGridMailer implements MailerInterface
     protected $eventDispatcher;
 
     /**
-     * @param SendGrid $sendGrid
+     * @var EventDispatcherInterface $dispatcher
      */
-    public function __construct(SendGrid $sendGrid)
+    protected $dispatcher;
+
+    /**
+     * @param SendGrid                 $sendGrid
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(SendGrid $sendGrid, EventDispatcherInterface $dispatcher)
     {
-        $this->sendGrid = $sendGrid;
+        $this->sendGrid   = $sendGrid;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -115,7 +122,6 @@ class SendGridMailer implements MailerInterface
      */
     public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
-        var_dump(__METHOD__);
         $this->resolveOptions($options);
         $email = new Email($from, $fromName, $to, $subject, $body, htmlspecialchars($body));
 
@@ -144,8 +150,7 @@ class SendGridMailer implements MailerInterface
 
             $emailEvent = new EmailEvent($mail);
 
-            $dispatcher = new EventDispatcher();
-            $dispatcher->dispatch(
+            $this->dispatcher->dispatch(
                 Events::STORE_EMAIL,
                 $emailEvent
             );
@@ -157,7 +162,7 @@ class SendGridMailer implements MailerInterface
             }
         }
 
-        //        return $this;
+        return $this;
     }
 
     /**
