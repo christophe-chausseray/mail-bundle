@@ -4,6 +4,7 @@ namespace Chris\Bundle\MailBundle\Mailer;
 
 use Alexlbr\EmailLibrary\Email;
 use Alexlbr\EmailLibrary\Mailer\MailerException;
+use Alexlbr\EmailLibrary\Mailer\SendGrid\EmailDecorator;
 use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer as SendGrid;
 use Chris\Bundle\MailBundle\Event\EmailEvent;
 use Chris\Bundle\MailBundle\Events;
@@ -36,11 +37,6 @@ class SendGridMailer implements MailerInterface
      * @var LoggerInterface|null $logger
      */
     protected $logger;
-
-    /**
-     * @var EventDispatcher $eventDispatcher
-     */
-    protected $eventDispatcher;
 
     /**
      * @var EventDispatcherInterface $dispatcher
@@ -81,6 +77,20 @@ class SendGridMailer implements MailerInterface
         $this->categories = $categories;
 
         return $this;
+    }
+
+    /**
+     * Set sentAt timestamp to delay email
+     *
+     * @param integer $timestamp
+     */
+    public function setSendAt($timestamp)
+    {
+        foreach ($this->mailList as $mail) {
+            if ($mail instanceof EmailDecorator) {
+                $mail->setSendAt($timestamp);
+            }
+        }
     }
 
     /**
