@@ -3,6 +3,7 @@
 namespace Chris\Bundle\MailBundle\Mailer;
 
 use Alexlbr\EmailLibrary\Email;
+use Alexlbr\EmailLibrary\EmailInterface;
 use Alexlbr\EmailLibrary\Mailer\MailerException;
 use Alexlbr\EmailLibrary\Mailer\SendGrid\EmailDecorator;
 use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer as SendGrid;
@@ -24,7 +25,7 @@ class SendGridMailer implements MailerInterface
     protected $categories = null;
 
     /**
-     * @var Email[] $mailList
+     * @var EmailInterface[] $mailList
      */
     protected $mailList;
 
@@ -42,6 +43,11 @@ class SendGridMailer implements MailerInterface
      * @var EventDispatcherInterface $dispatcher
      */
     protected $dispatcher;
+
+    /**
+     * @var integer
+     */
+    protected $sendAt;
 
     /**
      * @param SendGrid                 $sendGrid
@@ -82,15 +88,11 @@ class SendGridMailer implements MailerInterface
     /**
      * Set sentAt timestamp to delay email
      *
-     * @param integer $timestamp
+     * @param integer|null $timestamp
      */
-    public function setSendAt($timestamp)
+    public function setSendAt($timestamp = null)
     {
-        foreach ($this->mailList as $mail) {
-            if ($mail instanceof EmailDecorator) {
-                $mail->setSendAt($timestamp);
-            }
-        }
+        $this->sendAt = $timestamp;
     }
 
     /**
@@ -112,11 +114,10 @@ class SendGridMailer implements MailerInterface
     }
 
     /**
-     * @param Email $email
-     *
+     * @param EmailInterface $email
      * @return $this
      */
-    protected function addEmail(Email $email)
+    protected function addEmail(EmailInterface $email)
     {
         if (!is_array($this->mailList)) {
             $this->mailList = [];
@@ -133,12 +134,18 @@ class SendGridMailer implements MailerInterface
     public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
         $this->resolveOptions($options);
+
         $email = new Email($from, $fromName, $to, $subject, $body, htmlspecialchars($body));
 
         if (!empty($attachments)) {
             foreach ($attachments as $attachment) {
                 $email->addAttachment($attachment);
             }
+        }
+
+        if (!is_null($this->sendAt)) {
+            $email = new EmailDecorator($email);
+            $email->setSendAt($this->sendAt);
         }
 
         $this->addEmail($email);
@@ -153,7 +160,7 @@ class SendGridMailer implements MailerInterface
     {
         $mailsToSend = $this->mailList;
 
-        while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof Email) {
+        while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof EmailInterface) {
             if (!(is_array($this->options))) {
                 throw new MailerException('You need to prepare the mail that will be sent.');
             }
