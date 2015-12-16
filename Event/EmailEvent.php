@@ -2,13 +2,13 @@
 
 namespace Chris\Bundle\MailBundle\Event;
 
+use Alexlbr\EmailLibrary\EmailInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Alexlbr\EmailLibrary\Email;
 
 class EmailEvent extends Event
 {
     /**
-     * @var Email $email
+     * @var EmailInterface $email
      */
     protected $email;
 
@@ -18,16 +18,16 @@ class EmailEvent extends Event
     protected $isCanceled;
 
     /**
-     * @param Email $email
+     * @param EmailInterface $email
      */
-    public function __construct(Email $email)
+    public function __construct(EmailInterface $email)
     {
         $this->email      = $email;
         $this->isCanceled = false;
     }
 
     /**
-     * @return Email
+     * @return EmailInterface
      */
     public function getEmail()
     {
