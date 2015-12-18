@@ -57,6 +57,8 @@ mail:
     sendgrid:
         user: sendgrid_user
         password: sendgrid_pass
+        options:
+            turn_off_ssl_verification: true
 ```
 
 Usage
@@ -71,7 +73,7 @@ $categories = array('category1');
 
 $mailer = $this->get('mail_bundle.send_grid_mailer');
 $mailer->setCategories($categories)
-       ->prepare($from, $to, $subject, $body)
+       ->prepare($from, $fromName, $to = ['test@yopmail.com'], $subject, $body)
        ->send();
 ```
 
@@ -81,6 +83,6 @@ For SwiftMailer :
 <?php
 
 $mailer = $this->get('mail_bundle.swift_mailer');
-$mailer->prepare($from, $to, $subject, $body)
+$mailer->prepare($from, $fromName, $to = ['test@yopmail.com'], $subject, $body)
        ->send();
 ```
