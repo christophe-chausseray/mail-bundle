@@ -115,6 +115,7 @@ class SendGridMailer implements MailerInterface
 
     /**
      * @param EmailInterface $email
+     *
      * @return $this
      */
     protected function addEmail(EmailInterface $email)
@@ -158,7 +159,7 @@ class SendGridMailer implements MailerInterface
      */
     public function send()
     {
-        $mailIsSent = false;
+        $mailIsSent  = false;
         $mailsToSend = $this->mailList;
 
         while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof EmailInterface) {
