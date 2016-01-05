@@ -41,6 +41,8 @@ class SwiftMailer implements MailerInterface
                 $this->mail->attach(\Swift_Attachment::fromPath($attachment));
             }
         }
+
+        return $this;
     }
 
     /**
@@ -48,6 +50,13 @@ class SwiftMailer implements MailerInterface
      */
     public function send()
     {
-        $this->swiftMailer->send($this->mail);
+        $mailIsSent = false;
+
+        if (null !== $this->mail) {
+            $this->swiftMailer->send($this->mail);
+            $mailIsSent = true;
+        }
+
+        return $mailIsSent;
     }
 }
