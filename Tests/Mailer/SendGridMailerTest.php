@@ -2,9 +2,8 @@
 
 namespace Chris\Bundle\MailBundle\Tests\Mailer;
 
-use Chris\Bundle\MailBundle\Mailer\SendGridMailer;
-
 use \Phake;
+use Chris\Bundle\MailBundle\Mailer\SendGridMailer;
 use Alexlbr\EmailLibrary\Mailer\SendGrid\Mailer as SendGrid;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -62,9 +61,9 @@ class SendGridMailerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the fail on the send mail
+     * Test the failed on the send mail
      */
-    public function testFailSendMail()
+    public function testFailedSendMail()
     {
         $result = $this->sendGridMailer->send();
 
