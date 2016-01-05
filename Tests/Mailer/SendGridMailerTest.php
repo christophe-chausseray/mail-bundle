@@ -15,12 +15,12 @@ class SendGridMailerTest extends \PHPUnit_Framework_TestCase
     protected $sendGrid;
 
     /**
-     * @var eventDispatcher $eventDispatcher
+     * @var EventDispatcher $eventDispatcher
      */
     protected $eventDispatcher;
 
     /**
-     * @var sendGridMailer $sendGridMailer
+     * @var SendGridMailer $sendGridMailer
      */
     protected $sendGridMailer;
 
