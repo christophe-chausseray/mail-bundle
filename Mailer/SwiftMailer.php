@@ -25,7 +25,7 @@ class SwiftMailer implements MailerInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = array(), array $options = array())
+    public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
         $this->mail = \Swift_Message::newInstance()
             ->setSubject($subject)
@@ -41,6 +41,8 @@ class SwiftMailer implements MailerInterface
                 $this->mail->attach(\Swift_Attachment::fromPath($attachment));
             }
         }
+
+        return $this;
     }
 
     /**
@@ -48,6 +50,13 @@ class SwiftMailer implements MailerInterface
      */
     public function send()
     {
-        $this->swiftMailer->send($this->mail);
+        $mailIsSent = false;
+
+        if (null !== $this->mail) {
+            $this->swiftMailer->send($this->mail);
+            $mailIsSent = true;
+        }
+
+        return $mailIsSent;
     }
 }
