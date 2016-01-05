@@ -158,6 +158,7 @@ class SendGridMailer implements MailerInterface
      */
     public function send()
     {
+        $mailIsSent = false;
         $mailsToSend = $this->mailList;
 
         while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof EmailInterface) {
@@ -176,10 +177,11 @@ class SendGridMailer implements MailerInterface
                 $this->loggerDebug('The email is canceled by the application.');
             } else {
                 $this->sendGrid->send($mail);
+                $mailIsSent = true;
             }
         }
 
-        return $this;
+        return $mailIsSent;
     }
 
     /**
