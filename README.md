@@ -86,3 +86,11 @@ $mailer = $this->get('mail_bundle.swift_mailer');
 $mailer->prepare($from, $fromName, $to = ['test@yopmail.com'], $subject, $body)
        ->send();
 ```
+
+Tests
+=====
+
+Run Unit Test on the bundle:
+```sh
+$ ./bin/phpunit --debug -c ./
+```
