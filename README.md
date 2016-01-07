@@ -90,7 +90,7 @@ $mailer->prepare($from, $fromName, $to = ['test@yopmail.com'], $subject, $body)
 Tests
 =====
 
-Run Unit Test on the bundle:
+Run Unit Test in the bundle:
 ```sh
 $ ./bin/phpunit --debug -c ./
 ```
