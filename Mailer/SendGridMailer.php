@@ -160,9 +160,8 @@ class SendGridMailer implements MailerInterface
     public function send()
     {
         $mailIsSent  = false;
-        $mailsToSend = $this->mailList;
 
-        while (is_array($mailsToSend) && ($mail = array_shift($mailsToSend)) && $mail instanceof EmailInterface) {
+        while (is_array($this->mailList) && ($mail = array_shift($this->mailList)) && $mail instanceof EmailInterface) {
             if (!(is_array($this->options))) {
                 throw new MailerException('You need to prepare the mail that will be sent.');
             }
