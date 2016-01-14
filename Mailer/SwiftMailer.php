@@ -50,13 +50,8 @@ class SwiftMailer implements MailerInterface
      */
     public function send()
     {
-        $mailIsSent = false;
-
         if (null !== $this->mail) {
             $this->swiftMailer->send($this->mail);
-            $mailIsSent = true;
         }
-
-        return $mailIsSent;
     }
 }

@@ -12,8 +12,6 @@ interface MailerInterface
      * @param string $body
      * @param array  $attachments
      * @param array  $options
-     *
-     * @return
      */
     public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = array(), array $options = array());
 

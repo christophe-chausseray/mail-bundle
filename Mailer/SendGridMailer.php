@@ -159,8 +159,6 @@ class SendGridMailer implements MailerInterface
      */
     public function send()
     {
-        $mailIsSent  = false;
-
         while (is_array($this->mailList) && ($mail = array_shift($this->mailList)) && $mail instanceof EmailInterface) {
             if (!(is_array($this->options))) {
                 throw new MailerException('You need to prepare the mail that will be sent.');
@@ -177,11 +175,8 @@ class SendGridMailer implements MailerInterface
                 $this->loggerDebug('The email is canceled by the application.');
             } else {
                 $this->sendGrid->send($mail);
-                $mailIsSent = true;
             }
         }
-
-        return $mailIsSent;
     }
 
     /**

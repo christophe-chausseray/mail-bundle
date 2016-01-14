@@ -8,7 +8,12 @@ use \Phake;
 class SwiftMailerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SwiftMailer $swiftMailer
+     * @var \Swift_Mailer
+     */
+    protected $swift;
+    
+    /**
+     * @var SwiftMailer
      */
     protected $swiftMailer;
 
@@ -19,7 +24,8 @@ class SwiftMailerTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->swiftMailer = new SwiftMailer(Phake::mock(\Swift_Mailer::class));
+        $this->swift       = Phake::mock(\Swift_Mailer::class);
+        $this->swiftMailer = new SwiftMailer($this->swift);
     }
 
     /**
@@ -27,19 +33,9 @@ class SwiftMailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendMail()
     {
-        $result = $this->swiftMailer->prepare('fromTest@yopmail.com', 'fromTest', ['totest@yopmail.com'], 'test subject', 'test body')
+        $this->swiftMailer->prepare('fromTest@yopmail.com', 'fromTest', ['totest@yopmail.com'], 'test subject', 'test body')
             ->send();
 
-        $this->assertTrue($result);
-    }
-
-    /**
-     * Test the failed on the send mail
-     */
-    public function testFailedSendMail()
-    {
-        $result = $this->swiftMailer->send();
-
-        $this->assertFalse($result);
+        \Phake::verify($this->swift)->send(\Phake::anyParameters());
     }
 }
