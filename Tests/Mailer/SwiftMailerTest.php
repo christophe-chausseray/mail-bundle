@@ -36,6 +36,6 @@ class SwiftMailerTest extends \PHPUnit_Framework_TestCase
         $this->swiftMailer->prepare('fromTest@yopmail.com', 'fromTest', ['totest@yopmail.com'], 'test subject', 'test body')
             ->send();
 
-        \Phake::verify($this->swift)->send(\Phake::anyParameters());
+        \Phake::verify($this->swift)->send(Phake::anyParameters());
     }
 }

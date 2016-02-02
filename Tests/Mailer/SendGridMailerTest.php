@@ -45,7 +45,7 @@ class SendGridMailerTest extends \PHPUnit_Framework_TestCase
             ->prepare('fromTest@yopmail.com', 'fromTest', ['totest@yopmail.com'], 'test subject', 'test body')
             ->send();
 
-        \Phake::verify($this->sendGrid)->send(\Phake::anyParameters());
+        \Phake::verify($this->sendGrid)->send(Phake::anyParameters());
     }
 
     /**
@@ -57,6 +57,6 @@ class SendGridMailerTest extends \PHPUnit_Framework_TestCase
             ->prepare('fromTestWithCategory@yopmail.com', 'fromTestWithCategory', ['totestwithcategory@yopmail.com'], 'test subject with category', 'test body with category')
             ->send();
 
-        \Phake::verify($this->sendGrid)->send(\Phake::anyParameters());
+        \Phake::verify($this->sendGrid)->send(Phake::anyParameters());
     }
 }

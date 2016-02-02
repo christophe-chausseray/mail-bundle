@@ -2,6 +2,10 @@
 
 namespace Chris\Bundle\MailBundle\Mailer;
 
+use Swift_Attachment;
+use Swift_Mailer;
+use Swift_Message;
+
 class SwiftMailer implements MailerInterface
 {
     /**
@@ -17,7 +21,7 @@ class SwiftMailer implements MailerInterface
     /**
      * @param Swift_Mailer $swiftMailer
      */
-    public function __construct(\Swift_Mailer $swiftMailer)
+    public function __construct(Swift_Mailer $swiftMailer)
     {
         $this->swiftMailer = $swiftMailer;
     }
@@ -27,7 +31,7 @@ class SwiftMailer implements MailerInterface
      */
     public function prepare($from, $fromName, array $to, $subject, $body, array $attachments = [], array $options = [])
     {
-        $this->mail = \Swift_Message::newInstance()
+        $this->mail = Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($from)
             ->setBody($body, 'text/html');
@@ -38,7 +42,7 @@ class SwiftMailer implements MailerInterface
 
         if (!empty($attachments)) {
             foreach ($attachments as $attachment) {
-                $this->mail->attach(\Swift_Attachment::fromPath($attachment));
+                $this->mail->attach(Swift_Attachment::fromPath($attachment));
             }
         }
 
