@@ -145,8 +145,11 @@ class SendGridMailer implements MailerInterface
         }
 
         if (!is_null($this->sendAt)) {
-            $email = new EmailDecorator($email);
-            $email->setSendAt($this->sendAt);
+            $email = $this->decorateWithSendAt($email);
+        }
+
+        if (!empty($this->categories)) {
+            $email = $this->decorateWithCategories($email);
         }
 
         $this->addEmail($email);
@@ -191,5 +194,41 @@ class SendGridMailer implements MailerInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Decorate $email with sentAt.
+     *
+     * @param EmailInterface $email
+     *
+     * @return EmailInterface|EmailDecorator
+     */
+    protected function decorateWithSendAt(EmailInterface $email)
+    {
+        if (!$email instanceof EmailDecorator) {
+            $email = new EmailDecorator($email);
+        }
+        $email->setSendAt($this->sendAt);
+
+        return $email;
+    }
+
+    /**
+     * Decorate $email with categories.
+     *
+     * @param EmailInterface $email
+     *
+     * @return EmailInterface|EmailDecorator
+     */
+    protected function decorateWithCategories(EmailInterface $email)
+    {
+        if (!$email instanceof EmailDecorator) {
+            $email = new EmailDecorator($email);
+        }
+        if (!is_null($this->categories)) {
+            $email->setCategories($this->categories);
+        }
+
+        return $email;
     }
 }

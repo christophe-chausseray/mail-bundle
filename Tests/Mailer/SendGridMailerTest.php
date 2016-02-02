@@ -59,4 +59,17 @@ class SendGridMailerTest extends \PHPUnit_Framework_TestCase
 
         \Phake::verify($this->sendGrid)->send(Phake::anyParameters());
     }
+
+    /**
+     * Test on the send mail with sendAt
+     */
+    public function testSendMailWithSendAt()
+    {
+        $this->sendGridMailer->setSendAt(new \DateTime());
+        $this->sendGridMailer
+            ->prepare('fromTestWithSendAt@yopmail.com', 'fromTestWithSendAt', ['totestwithsendat@yopmail.com'], 'test subject with sendAt', 'test body with sendAt')
+            ->send();
+
+        \Phake::verify($this->sendGrid)->send(\Phake::anyParameters());
+    }
 }
